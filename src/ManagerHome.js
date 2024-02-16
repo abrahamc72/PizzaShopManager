@@ -4,31 +4,26 @@ import pizzaOvenImage from './img/pizzaoven.jpg';
 import logo from './img/logo2.png';
 import { useUser } from './UserContext';
 import { useNavigate } from 'react-router-dom';
-
 const ManagerHome = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { user, setUser } = useUser();
   const navigate = useNavigate();
-
   const navigateToCreatePizza = () => navigate('/create-pizza');
   const navigateToViewPizza = () => navigate('/view-pizza');
   const navigateToManageToppings = () => navigate('/manage-toppings');
-
   const handleSignOut = () => {
-    setUser({ name: '', role: '' }); // Clear user context
-    navigate('/'); // Navigate to sign-in page
+    setUser({ name: '', role: '' });
+    navigate('/');
   };
-
   useEffect(() => {
-    if (!user || !user.name) { // Adjust the condition based on how your user object is structured
-      navigate('/'); // Adjust the path as necessary
+    if (!user || !user.name) {
+      navigate('/');
     }
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 100); // Adjust as needed
+    }, 100);
     return () => clearTimeout(timer);
   }, [user,navigate]);
-
   return (
     <Box sx={{
       position: 'relative',
@@ -51,14 +46,13 @@ const ManagerHome = () => {
         filter: 'blur(8px)',
         zIndex: -1,
       }} />
-      
       <Box sx={{
         width: '50%',
         minWidth: '500px',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between', // Adjust to space between items
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.98)',
         color: 'white',
@@ -66,7 +60,7 @@ const ManagerHome = () => {
         borderRadius: 2,
         gap: 2,
         zIndex: 1,
-        position: 'relative', // Ensure we can position children absolutely within
+        position: 'relative',
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: isLoaded ? 1 : 0, transition: 'opacity 1.5s ease' }}>
           <img src={logo} alt="Logo" style={{ maxWidth: '65px', marginBottom: '20px' }} />
@@ -77,13 +71,13 @@ const ManagerHome = () => {
           <Button onClick={navigateToViewPizza} variant="outlined" sx={{ minWidth: '150px', minHeight: '150px', color: 'white', transition: 'opacity 1.5s ease', opacity: isLoaded ? 1 : 0 }}>View Pizzas</Button>
           <Button onClick={navigateToManageToppings} variant="outlined" sx={{ minWidth: '150px', minHeight: '150px', color: 'white', transition: 'opacity 1.5s ease', opacity: isLoaded ? 1 : 0 }}>Manage Toppings</Button>
         </Box>
-        {/* Adjusted Typography for role and name */}
+        {}
         <Typography onClick={handleSignOut} sx={{ 
-          mt: 'auto', // Push to the bottom
-          alignSelf: 'flex-end', // Align to the right
+          mt: 'auto',
+          alignSelf: 'flex-end',
           opacity: isLoaded ? 1 : 0, 
           transition: 'opacity 1.5s ease', 
-          transitionDelay: '0.75s', // Adjust delay to show after buttons
+          transitionDelay: '0.75s',
         }}>
         {user.name} - Sign Out
         </Typography>
@@ -91,5 +85,4 @@ const ManagerHome = () => {
     </Box>
   );
 };
-
 export default ManagerHome;

@@ -4,8 +4,6 @@ import pizzaOvenImage from './img/pizzaoven.jpg';
 import logo from './img/logo2.png';
 import { useUser } from './UserContext';
 import { useNavigate } from 'react-router-dom';
-
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -16,14 +14,11 @@ const MenuProps = {
     },
   },
 };
-
-
 const CreatePizza = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const [reloadData, setReloadData] = useState(false);
-
   const [toppings, setToppings] = useState([]);
   const [selectedToppingIds, setSelectedToppingIds] = useState([]);
   const [selectedToppingsUpdate, setSelectedToppingsUpdate] = useState([]);
@@ -32,60 +27,50 @@ const CreatePizza = () => {
   const [pizzas, setPizzas] = useState([]);
   const [selectedPizzaForUpdate, setSelectedPizzaForUpdate] = useState("");
 const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
-
   const navigateToViewPizza = () => navigate('/view-pizza');
   const navigateToManageToppings = () => navigate('/manage-toppings');
   const baseUrl = user.localBool ? `http://localhost:${user.portNum}` : 'http://ec2-18-219-122-182.us-east-2.compute.amazonaws.com:8000';
-  
   const handleSignOut = () => {
-    setUser({ name: '', role: '' }); // Clear user context
-    navigate('/'); // Navigate to sign-in page
+    setUser({ name: '', role: '' });
+    navigate('/');
   };
   const navigateToRole = () => {
     console.log(user.name)
     if (user.name.trim()) {
       navigate(`/${user.role.toLowerCase()}-home`);
-        // This timeout should be long enough for the text/buttons fade-out to be noticeable
     }
   };
-  
   useEffect(() => {
     if (!user || !user.name) {
       navigate('/');
     }
-
     fetch(baseUrl+'/toppings')
       .then(response => response.json())
       .then(data => {
         setToppings(data);
       })
       .catch(error => console.log('Error fetching toppings:', error));
-
     fetch(baseUrl+'/pizzas')
       .then(response => response.json())
       .then(data => {
         setPizzas(data);
       })
       .catch(error => console.log('Error fetching pizzas:', error));
-
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
     return () => clearTimeout(timer);
   }, [navigate, user, reloadData, baseUrl]);
-
   const handleCreatePizza = () => {
     if (!pizzaName.trim() || selectedToppingIds.length === 0) {
       alert("Please enter a pizza name and select at least one topping.");
       return;
     }
-
     const pizzaData = {
       name: pizzaName,
       chef: user.name,
-      toppings: selectedToppingIds, // Now sending IDs
+      toppings: selectedToppingIds,
     };
-
     fetch(baseUrl+'/pizzas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -94,9 +79,9 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     .then(response => response.json())
     .then(data => {
       if (data.error) {
-        alert(`Error: ${data.error}`); // Display error message from the backend
+        alert(`Error: ${data.error}`);
       } else {
-        alert(data.message); // Display success message from the backend
+        alert(data.message);
       }
       setPizzaName("");
       setSelectedToppingIds([]);
@@ -104,18 +89,14 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     })
     .catch(error => console.error('Error:', error));
   };
-
   const handleChangeToppings = (event) => {
-    // Convert selected topping names back to their IDs for submission
     const selectedNames = event.target.value;
     const selectedIds = selectedNames.map(name =>
       toppings.find(topping => topping.name === name)?.id
     );
     setSelectedToppingIds(selectedIds);
   };
-
   const handleChangeUpdateToppings = (event) => {
-    // Convert selected topping names back to their IDs for submission
     const selectedNames = event.target.value;
     const selectedIds = selectedNames.map(name =>
       toppings.find(topping => topping.name === name)?.id
@@ -128,7 +109,6 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     const pizza = pizzas.find(p => p.name === pizzaId);
     if (pizza) {
       setUpdatePizzaName(pizza.name);
-      // Check if pizza.toppings is an array before mapping over it
       const selectedToppingIds = Array.isArray(pizza.toppings) ? pizza.toppings.map(topping => topping.id) : [];
       setSelectedToppingsUpdate(selectedToppingIds);
       console.log(selectedToppingIds);
@@ -137,7 +117,6 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
       setSelectedToppingsUpdate([]);
     }
   };
-  
   const handleUpdatePizza = () => {
     if (!updatePizzaName.trim() || selectedToppingsUpdate.length === 0 || !selectedPizzaForUpdate) {
       alert("Please select a pizza and ensure it has a name and at least one topping.");
@@ -145,9 +124,8 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     }
     const pizzaData = {
       name: updatePizzaName,
-      toppings: selectedToppingsUpdate, // Ensure that selected toppings are sent as IDs
+      toppings: selectedToppingsUpdate,
     };
-  
     fetch(baseUrl+`/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -156,9 +134,9 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     .then(response => response.json())
     .then(data => {
       if (data.error) {
-        alert(`Error: ${data.error}`); // Display error message from the backend
+        alert(`Error: ${data.error}`);
       } else {
-        alert(data.message); // Display success message from the backend
+        alert(data.message);
       }
       setUpdatePizzaName("");
       setSelectedToppingsUpdate([]);
@@ -167,20 +145,16 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     })
     .catch(error => console.error('Error updating pizza:', error));
   };
-
   const handleDeletePizzaSelection = (event) => {
-    setSelectedPizzaForDelete(event.target.value); // Update the selected pizza for deletion
+    setSelectedPizzaForDelete(event.target.value);
   };
-
   const handleDeleteConfirmation = () => {
     if (!selectedPizzaForDelete) {
       alert("Please select a pizza to delete.");
       return;
     }
-
     const confirmed = window.confirm(`Are you sure you want to delete the pizza "${selectedPizzaForDelete}"?`);
     if (confirmed) {
-      // Send deletion request to the server
       fetch(baseUrl+`/delete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -189,11 +163,11 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
       .then(response => response.json())
       .then(data => {
         if (data.error) {
-          alert(`Error: ${data.error}`); // Display error message from the backend
+          alert(`Error: ${data.error}`);
         } else {
-          alert(data.message); // Display success message from the backend
+          alert(data.message);
         }
-        setSelectedPizzaForDelete(""); // Reset the selected pizza for deletion
+        setSelectedPizzaForDelete("");
         setReloadData(prev => !prev);
       })
       .catch(error => console.error('Error deleting pizza:', error));
@@ -221,14 +195,13 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
         filter: 'blur(8px)',
         zIndex: -1,
       }} />
-      
       <Box sx={{
         width: '50%',
         minWidth: '500px',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between', // Adjust to space between items
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.98)',
         color: 'white',
@@ -236,14 +209,13 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
         borderRadius: 2,
         gap: 2,
         zIndex: 1,
-        position: 'relative', // Ensure we can position children absolutely within
+        position: 'relative',
       }}>
-        
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: isLoaded ? 1 : 0, transition: 'opacity 1.5s ease' }}>
           <img src={logo} alt="Logo" style={{ maxWidth: '65px', marginBottom: '20px' }} />
           <Typography variant="h4" sx={{ marginLeft: 2, transition: 'opacity 1.5s ease', opacity: isLoaded ? 1 : 0 }}>Create/Delete a Pizza</Typography>
         </Box>
-        {/* Navigation Bar */}
+        {}
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
           <Button variant="outlined" onClick={navigateToRole} color="primary">Home</Button>
           <Button variant="outlined" onClick={navigateToViewPizza} color="primary">View Pizzas</Button>
@@ -256,29 +228,29 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     overflowY: 'auto',
     overflowX: 'hidden',
     padding: '20px',
-    maxHeight: '60vh', // Adjust based on your UI needs
+    maxHeight: '60vh',
     marginTop: 2,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center', // Ensure children are centered
+    alignItems: 'center',
     gap: 2,
     '&::-webkit-scrollbar': {
       width: '10px',
-      backgroundColor: 'transparent', // Transparent background for the scrollbar track
+      backgroundColor: 'transparent',
     },
     '&::-webkit-scrollbar-track': {
       border: '1px solid white',
       borderRadius: '10px',
-      backgroundColor: 'transparent', // Ensuring the track is transparent
+      backgroundColor: 'transparent',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#840f0f', // Example: Using MUI's default primary color
+      backgroundColor: '#840f0f',
       borderRadius: '10px',
-      border: '2px solid white', // White border for the thumb
+      border: '2px solid white',
     },
     '&::-webkit-scrollbar-thumb:hover': {
-      backgroundColor: '#115293', // Darker shade when hovered
-    }, // Space between items
+      backgroundColor: '#115293',
+    },
   }}>
         <Typography variant="h4">Create a Pizza</Typography>
         <FormControl fullWidth margin="small" variant="outlined" sx={{ '.MuiInputLabel-root': { color: 'white' }, '.MuiOutlinedInput-root': { color: 'white', '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' } } }}>
@@ -326,7 +298,6 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
         </Select>
       </FormControl>
       <Button variant="contained" onClick={handleCreatePizza}>Create</Button>
-      
       <Typography variant="h4" sx={{ color: 'white', mt: 4, mb: 2 }}>Update Existing Pizza</Typography>
       <Box sx={{ width: '100%' }}>
   <FormControl fullWidth margin="small" variant="outlined" sx={{ '.MuiInputLabel-root': { color: 'white' }, '.MuiOutlinedInput-root': { color: 'white', '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' } }, '& .MuiSelect-select': { textAlign: 'left', paddingRight: '24px' } }}>
@@ -336,14 +307,13 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
       value={updatePizzaName}
       onChange={handleUpdatePizzaSelection}
       label="Pizza"
-      sx={{ color: 'white', textAlign: 'left' }} // Set textAlign to 'left'
-      MenuProps={{ PaperProps: { sx: { width: 'auto' } } }} // Adjust the width of the menu
+      sx={{ color: 'white', textAlign: 'left' }}
+      MenuProps={{ PaperProps: { sx: { width: 'auto' } } }}
     >
       {pizzas.map((pizza) => (
         <MenuItem
           key={pizza.pizza_id}
           value={pizza.name}
-          // Apply custom style for text alignment
           style={{ textAlign: 'left' }}
         >
           {pizza.name}
@@ -352,7 +322,6 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     </Select>
   </FormControl>
 </Box>
-
 <Box sx={{ width: '100%' }}>
   <FormControl fullWidth margin="small" variant="outlined" sx={{ '.MuiInputLabel-root': { color: 'white' }, '.MuiOutlinedInput-root': { color: 'white', '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' } } }}>
     <InputLabel id="select-toppings-label" sx={{ color: 'white' }}>Toppings</InputLabel>
@@ -386,9 +355,7 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
         </Select>
   </FormControl>
 </Box>
-
 <Button variant="contained" onClick={handleUpdatePizza}>Update</Button>
-
   <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>Delete a Pizza</Typography>
   <FormControl fullWidth margin="small" variant="outlined" sx={{ '.MuiInputLabel-root': { color: 'white' }, '.MuiOutlinedInput-root': { color: 'white', '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' } }, '& .MuiSelect-select': { textAlign: 'left', paddingRight: '24px' } }}>
     <InputLabel id="delete-pizza-label" sx={{ color: 'white' }}>Existing Pizza</InputLabel>
@@ -413,13 +380,13 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
   </FormControl>
   <Button variant="contained" onClick={handleDeleteConfirmation}>Delete</Button>
   </Box>
-        {/* Adjusted Typography for role and name */}
+        {}
         <Typography onClick={handleSignOut} sx={{ 
-          mt: 'auto', // Push to the bottom
-          alignSelf: 'flex-end', // Align to the right
+          mt: 'auto',
+          alignSelf: 'flex-end',
           opacity: isLoaded ? 1 : 0, 
           transition: 'opacity 1.5s ease', 
-          transitionDelay: '0.75s', // Adjust delay to show after buttons
+          transitionDelay: '0.75s',
         }}>
         {user.name} - Sign Out
         </Typography>
@@ -427,5 +394,4 @@ const [selectedPizzaForDelete, setSelectedPizzaForDelete] = useState("");
     </Box>
   );
 };
-
 export default CreatePizza;

@@ -4,7 +4,6 @@ import pizzaOvenImage from './img/pizzaoven.jpg';
 import { useNavigate } from 'react-router-dom';
 import logo from './img/logo2.png';
 import { useUser } from './UserContext';
-
 const SignInPage = () => {
     const [role, setRole] = useState('');
     const [name, setName] = useState('');
@@ -14,23 +13,18 @@ const SignInPage = () => {
     const [isPanelCentered, setIsPanelCentered] = useState(false);
     const navigate = useNavigate();
     const { setUser } = useUser();
-
     const handleRoleSelect = (selectedRole) => {
         setRole(selectedRole);
     };
-  
     const handleNameChange = (event) => {
         setName(event.target.value);
     };
-
     const handleUseLocalChange = (event) => {
         setUseLocal(event.target.checked);
     };
-
     const handlePortNumChange = (event) => {
         setPortNum(event.target.value);
     };
-  
     const handleBack = () => {
         setRole('');
         setName('');
@@ -39,7 +33,6 @@ const SignInPage = () => {
         setIsTextVisible(true);
         setIsPanelCentered(false);
     };
-  
     const handleEnter = () => {
         if (name.trim()) {
             setUser({ name, role, localBool: useLocal, portNum: useLocal ? portNum : '' });
@@ -52,7 +45,6 @@ const SignInPage = () => {
             }, 500);
         }
     };
-
     return (
         <Box sx={{
             display: 'flex',
@@ -97,13 +89,12 @@ const SignInPage = () => {
                   value={name}
                   onChange={handleNameChange}
                   InputLabelProps={{
-                    style: { color: 'white' }, // For label
+                    style: { color: 'white' },
                   }}
                   InputProps={{
                     style: {
-                      color: 'white', // For input text
+                      color: 'white',
                     },
-                    // For input borders
                     notchedOutline: {
                       borderWidth: '1px',
                       borderColor: 'white !important',
@@ -128,7 +119,7 @@ const SignInPage = () => {
                     marginBottom: 2,
                     marginRight: 5
                   }}
-                  placeholderTextColor="white" // This prop does not exist in MUI; it's just for reference
+                  placeholderTextColor="white"
                 />
                             <FormControlLabel
                   control={
@@ -136,15 +127,15 @@ const SignInPage = () => {
                       checked={useLocal}
                       onChange={handleUseLocalChange}
                       sx={{
-                        color: 'white', // Checkbox color when not checked
+                        color: 'white',
                         '&.Mui-checked': {
-                          color: 'white', // Checkbox color when checked
+                          color: 'white',
                         },
                       }}
                     />
                   }
                   label="Use Local"
-                  sx={{ color: 'white', '& .MuiSvgIcon-root': { color: 'white' } }} // For label and checkbox
+                  sx={{ color: 'white', '& .MuiSvgIcon-root': { color: 'white' } }}
                 />
                             {useLocal && (
                                 <TextField
@@ -154,14 +145,13 @@ const SignInPage = () => {
                                 onChange={handlePortNumChange}
                                 placeholder="Port"
                                 InputProps={{
-                                  style: { color: 'white' }, // This styles the input text color
-                                  // Apply styles directly to the input element for the placeholder color
+                                  style: { color: 'white' },
                                   inputProps: {
                                     style: {
-                                      color: 'white', // Ensures text entered by the user is white
+                                      color: 'white',
                                       '::placeholder': {
-                                        color: 'white', // Attempts to style the placeholder text directly
-                                        opacity: 1 // Ensure the placeholder is fully opaque
+                                        color: 'white',
+                                        opacity: 1
                                       }
                                     }
                                   }
@@ -184,7 +174,7 @@ const SignInPage = () => {
                                       borderColor: 'white',
                                     },
                                   },
-                                  '& .MuiInputLabel-root': { // Styles the label
+                                  '& .MuiInputLabel-root': {
                                     color: 'white',
                                   },
                                   width: '30%',
@@ -203,5 +193,4 @@ const SignInPage = () => {
         </Box>
     );
 };
-
 export default SignInPage;
