@@ -4,23 +4,33 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Front-End
 React.js hosted [here](http://abrahamcervantes.com). 
+
+Using 
+
+create-react-app
+
 Material UI Components
 
 # Back-End
 Python Flask with SQLAlchemy to handle database operations.
+
 Running on Amazon EC2 instance.
+
 Database hosted on SQLElephant.
 
 # Locally Testing
 Clone the repo.
 1. Install python requirements. (installpythonreqs.bat)
+   
        If you prefer to keep the installation inside a venv use the creatvenv.bat, assuming you have virtualvenv installed. Then activate the venv and run the installpythonreqs.bat
+   
        If there are issues, you might have to edit the python commands in the bat to whatever you use (python => python3).
-2. Install and Build react.js app with installbuildclient.bat, requires npm.
-3. After dependencies areinstalled and the app built, use start.bat or startWithVenv.bat to start both the frontend and backend at the same time.
-4. In the app, toggle the Local button and type the corresponding port number on the python backend console(should default to 5000).
+   
+3. Install and Build react.js app with installbuildclient.bat, requires npm.
+4. After dependencies areinstalled and the app built, use start.bat or startWithVenv.bat to start both the frontend and backend at the same time.
+5. In the app, toggle the Local button and type the corresponding port number on the python backend console(should default to 5000).
 
-#Recreating Table
+# Recreating Table
 Below is the structure of the pizza database.
 
 CREATE TABLE pizzas (
