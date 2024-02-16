@@ -1,6 +1,13 @@
 # Pizza Shop Manager
 Hosted on http://abrahamcervantes.com
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+I selected React as my front end due to its easy setup with create-react-app and my previous experience with it. I also wanted to explore MaterialUI's component library a bit more.
+
+For my backend I chose a Python Flask app because it was something I wanted to learn. I have had experience with node.js to handle database operations, but this time, I wanted to challenge myself in python.
+
+I also wanted to teach myself about hosting on AWS, so I chose to host the Flask app on an [EC2 instance](https://aws.amazon.com/ec2/). As for my database I used a fast and easy PostgreSQL as a Service to hold my created tables.
+
 
 # Front-End
 React.js hosted [here](http://abrahamcervantes.com). 
