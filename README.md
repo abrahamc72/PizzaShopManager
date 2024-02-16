@@ -34,8 +34,8 @@ Clone the repo.
        If there are issues, you might have to edit the python commands in the bat to whatever you use (python => python3).
    
 3. Install and Build react.js app with installbuildclient.bat, requires npm.
-4. After dependencies areinstalled and the app built, use start.bat or startWithVenv.bat to start both the frontend and backend at the same time.
-5. In the app, toggle the Local button and type the corresponding port number on the python backend console(should default to 5000).
+4. After dependencies are installed and the app built, use start.bat or startWithVenv.bat to start both the frontend and backend at the same time.
+5. In the app, toggle the Local button and type the corresponding port number from the python backend console(should default to 5000).
 
 # Recreating Table
 Below is the structure of the pizza database.
