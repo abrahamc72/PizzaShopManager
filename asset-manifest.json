@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/PizzaShopManager/static/css/main.e6c13ad2.css",
-    "main.js": "/PizzaShopManager/static/js/main.6305445d.js",
+    "main.js": "/PizzaShopManager/static/js/main.156a1c69.js",
     "static/js/592.599f76a2.chunk.js": "/PizzaShopManager/static/js/592.599f76a2.chunk.js",
     "static/media/pizzaoven.jpg": "/PizzaShopManager/static/media/pizzaoven.b2f3862f9b02e50a7fb1.jpg",
     "static/media/logo2.png": "/PizzaShopManager/static/media/logo2.51ded0d83d5885d5ff67.png",
     "index.html": "/PizzaShopManager/index.html",
     "main.e6c13ad2.css.map": "/PizzaShopManager/static/css/main.e6c13ad2.css.map",
-    "main.6305445d.js.map": "/PizzaShopManager/static/js/main.6305445d.js.map",
+    "main.156a1c69.js.map": "/PizzaShopManager/static/js/main.156a1c69.js.map",
     "592.599f76a2.chunk.js.map": "/PizzaShopManager/static/js/592.599f76a2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.6305445d.js"
+    "static/js/main.156a1c69.js"
   ]
 }
