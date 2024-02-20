@@ -1,5 +1,5 @@
 # Pizza Shop Manager
-Hosted on http://abrahamcervantes.com
+Hosted on [http://abrahamcervantes.com](http://abrahamcervantes.com/) (Make sure your browser does not redirect to https, it should be http)
 
 
 I selected React as my front end due to its easy setup with create-react-app and my previous experience with it. I also wanted to explore MaterialUI's component library a bit more.
